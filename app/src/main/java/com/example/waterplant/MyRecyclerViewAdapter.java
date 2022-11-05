@@ -1,10 +1,13 @@
 package com.example.waterplant;
 
+
+//Import for basics
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.TextView;
 import android.view.View;
 import android.view.LayoutInflater;
+//----------
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
