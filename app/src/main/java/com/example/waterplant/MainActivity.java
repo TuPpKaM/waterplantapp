@@ -35,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
         float factor = getResources().getDisplayMetrics().density;
         int screenHeightPx = (int) ((screenHeightDp)*factor)-(navigationBarHeight);
 
+        Context context = getApplicationContext();
+
         //recyclerview setup
-        MyRecyclerViewAdapter menuRecAdapter = new MyRecyclerViewAdapter(new String[]{"1", "2", "3", "4", "5", "6", "7","8"},screenHeightPx);
+        MyRecyclerViewAdapter menuRecAdapter = new MyRecyclerViewAdapter(new String[]{"6/11/2022 23:50:05", "6/11/2022 23:40:05", "6/11/2022 23:14:05", "6/11/2022 23:10:05", "6/11/2022 23:22:05", "5/11/2022 23:17:05", "5/11/2022 23:10:05","4/11/2022 23:10:05"},screenHeightPx, context);
         recyclerView = findViewById(R.id.recyclerView1);
         recyclerView.setAdapter(menuRecAdapter);
 
         //debug
-        Context context = getApplicationContext();
+
         Toast toast = Toast.makeText(context, " W "+screenWidthDp + " H " + screenHeightDp + " S " + navigationBarHeight + " R " + resource, Toast.LENGTH_LONG);
         toast.show();
 
