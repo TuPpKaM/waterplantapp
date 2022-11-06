@@ -1,28 +1,23 @@
 package com.example.waterplant;
 
-import 	android.content.res.Resources;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
 import android.os.SystemClock;
-
-//Import for basics
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.widget.Chronometer;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
-//----------
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+    private String[] savedDataSet;
     private String[] localDataSet;
     private int screenHeightPx;
     private DateFormat date;
@@ -33,20 +28,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
         private final Chronometer chronometer;
+        private final ImageView imageView;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
             chronometer = (Chronometer) view.findViewById(R.id.Chronometer);
-            textView = (TextView) view.findViewById(R.id.textView);
+            imageView = (ImageView) view.findViewById(R.id.imageView);
         }
         public Chronometer getChronometer() {
             return chronometer;
         }
-        public TextView getTextView() {
-            return textView;
+        public ImageView getImageView() {
+            return imageView;
         }
     }
 
@@ -57,6 +52,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * by RecyclerView.
      */
     public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context) {
+        savedDataSet = Arrays.copyOf(dataSet, dataSet.length);
         localDataSet = dataSet;
         this.screenHeightPx = screenHeightPx;
         this.context = context;
@@ -85,37 +81,51 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        Date datet = null;
+        Date savedDate = null;
         try {
-            datet = date.parse(localDataSet[position]);
+            savedDate = date.parse(savedDataSet[position]);
         } catch (ParseException e) {
-            e.printStackTrace();
+            savedDate = Calendar.getInstance().getTime();
         }
 
-        long lastSuccess = datet.getTime(); //Some Date object
+        long lastPress = savedDate.getTime();
         long elapsedRealtimeOffset = System.currentTimeMillis() - SystemClock.elapsedRealtime();
-        viewHolder.getChronometer().setBase(lastSuccess - elapsedRealtimeOffset);
+        long chronoBase = lastPress - elapsedRealtimeOffset;
+        viewHolder.getChronometer().setBase(chronoBase);
         viewHolder.getChronometer().start();
+
+        //onclick for item short
+        viewHolder.getImageView().setOnClickListener(v -> {
+            viewHolder.getChronometer().setBase(SystemClock.elapsedRealtime());
+            localDataSet[position]= date.format(Calendar.getInstance().getTime());
+        });
+
+        //onclick for item long
+        viewHolder.getImageView().setLongClickable(true);
+        viewHolder.getImageView().setOnLongClickListener(v -> {
+            viewHolder.getChronometer().setBase(chronoBase);
+            return true;
+        });
 
         //onclick for timer
         viewHolder.getChronometer().setOnChronometerTickListener(cArg -> {
             long time = SystemClock.elapsedRealtime() - cArg.getBase();
 
             int d = (int) (time / 86400000);
-            if (d == 1) {
-                cArg.setText(d + " day");
-                return;
-            } else if (d > 1) {
+            if (d > 1) {
                 cArg.setText(d + " days");
+                return;
+            } else if (d == 1) {
+                cArg.setText(d + " day");
                 return;
             }
 
             int h = (int) ((time / 3600000) % 24);
-            if (h == 1) {
-                cArg.setText(h + " hour");
-                return;
-            } else if (h > 1) {
+            if (h > 1) {
                 cArg.setText(h + " hours");
+                return;
+            } else if (h == 1) {
+                cArg.setText(h + " hour");
                 return;
             }
 
@@ -133,7 +143,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return savedDataSet.length;
     }
 
 
