@@ -17,11 +17,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
-    private String[] savedDataSet;
+    private final String[] savedDataSet;
     private String[] localDataSet;
-    private int screenHeightPx;
-    private DateFormat date;
-    private Context context;
+    private final int screenHeightPx;
+    private final DateFormat date;
+    private final Context context;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -81,6 +81,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+
+        //calculate time
         Date savedDate = null;
         try {
             savedDate = date.parse(savedDataSet[position]);
@@ -91,6 +93,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         long lastPress = savedDate.getTime();
         long elapsedRealtimeOffset = System.currentTimeMillis() - SystemClock.elapsedRealtime();
         long chronoBase = lastPress - elapsedRealtimeOffset;
+
+        //setup Chronometer
         viewHolder.getChronometer().setBase(chronoBase);
         viewHolder.getChronometer().start();
 
