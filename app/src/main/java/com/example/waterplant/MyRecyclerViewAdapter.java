@@ -1,5 +1,9 @@
 package com.example.waterplant;
 
+import 	android.content.res.Resources;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.os.Bundle;
 
 //Import for basics
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.view.LayoutInflater;
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
     private String[] localDataSet;
+    private int screenHeightPx;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -38,8 +43,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public MyRecyclerViewAdapter(String[] dataSet) {
+    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx) {
         localDataSet = dataSet;
+        this.screenHeightPx = screenHeightPx;
     }
 
     // Create new views (invoked by the layout manager)
@@ -48,6 +54,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recyclerview_item, viewGroup, false);
+
+        //setting item height
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = (screenHeightPx/4);
+        view.setLayoutParams(layoutParams);
+
 
         return new ViewHolder(view);
     }
@@ -66,5 +78,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public int getItemCount() {
         return localDataSet.length;
     }
+
+
 }
 
