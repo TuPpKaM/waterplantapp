@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         //recyclerview setup
         MyRecyclerViewAdapter menuRecAdapter = new MyRecyclerViewAdapter(new String[]{"1", "2", "3", "4", "5", "6", "7","8"},screenHeightPx);
         recyclerView = findViewById(R.id.recyclerView1);
-        recyclerView.addItemDecoration(new ZeroMarginDecoration());
         recyclerView.setAdapter(menuRecAdapter);
 
         //debug
