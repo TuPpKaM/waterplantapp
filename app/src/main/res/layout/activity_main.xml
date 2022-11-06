@@ -17,8 +17,6 @@
         tools:layout_editor_absoluteY="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="0dp"
-        android:layout_margin="0dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
