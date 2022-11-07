@@ -8,10 +8,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 
 //Import for basics
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.view.View;
 import android.view.LayoutInflater;
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             inputData[i] = sharedPref.getString("plant_date_"+i, null);
         }
 
+        //TODO: add image storage
+
         /*
         String[] listan = new String[]{"6/11/2022 23:50:05", "6/11/2022 23:40:05", "6/11/2022 23:14:05", "6/11/2022 23:10:05", "6/11/2022 23:22:05", "5/11/2022 23:17:05", "5/11/2022 23:10:05","4/11/2022 23:10:05"};
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -66,8 +72,27 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast = Toast.makeText(context, " W "+screenWidthDp + " H " + screenHeightDp + " S " + navigationBarHeight + " R " + resource, Toast.LENGTH_LONG);
         toast.show();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+        return true;
+    }
 
-
+    //TODO: find a way to make menu item clickable, decide on what menu to use
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.editButton:
+                Context context = getApplicationContext();
+                Toast toast = Toast.makeText(context, " W ", Toast.LENGTH_LONG);
+                toast.show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }
