@@ -54,8 +54,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * by RecyclerView.
      */
     public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context, SharedPreferences sharedPref) {
-        savedDataSet = Arrays.copyOf(dataSet, dataSet.length);
         localDataSet = dataSet;
+        savedDataSet = Arrays.copyOf(dataSet, dataSet.length);
         this.screenHeightPx = screenHeightPx;
         this.context = context;
         this.sharedPref = sharedPref;
@@ -89,7 +89,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         Date savedDate = null;
         try {
             savedDate = date.parse(savedDataSet[position]);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             savedDate = Calendar.getInstance().getTime();
         }
 
@@ -104,7 +104,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         //onclick for item short
         viewHolder.getImageView().setOnClickListener(v -> {
             viewHolder.getChronometer().setBase(SystemClock.elapsedRealtime());
-            localDataSet[position]= date.format(SystemClock.elapsedRealtime());
+            localDataSet[position]= date.format(Calendar.getInstance().getTime());
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("plant_date_"+position, localDataSet[position]);
             editor.commit();
