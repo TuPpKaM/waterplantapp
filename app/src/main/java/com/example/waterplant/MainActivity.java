@@ -3,6 +3,7 @@ package com.example.waterplant;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.widget.Toast;
+
+import java.util.Calendar;
 //----------
 
 public class MainActivity extends AppCompatActivity {
@@ -37,8 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = getApplicationContext();
 
+        //load data
+        SharedPreferences sharedPref = getSharedPreferences("plant_date_1", MODE_PRIVATE);
+        String[] inputData = new String[8];
+        for (int i =0; i<8 ; i++) {
+            inputData[i] = sharedPref.getString("plant_date_"+i, null);
+        }
+
+        /*
+        String[] listan = new String[]{"6/11/2022 23:50:05", "6/11/2022 23:40:05", "6/11/2022 23:14:05", "6/11/2022 23:10:05", "6/11/2022 23:22:05", "5/11/2022 23:17:05", "5/11/2022 23:10:05","4/11/2022 23:10:05"};
+        SharedPreferences.Editor editor = sharedPref.edit();
+        for (int i =0; i<8 ; i++) {
+            editor.putString("plant_date_"+i,listan[i]);
+        }
+        editor.commit();
+        */
+
+
         //recyclerview setup
-        MyRecyclerViewAdapter menuRecAdapter = new MyRecyclerViewAdapter(new String[]{"6/11/2022 23:50:05", "6/11/2022 23:40:05", "6/11/2022 23:14:05", "6/11/2022 23:10:05", "6/11/2022 23:22:05", "5/11/2022 23:17:05", "5/11/2022 23:10:05","4/11/2022 23:10:05"},screenHeightPx, context);
+        MyRecyclerViewAdapter menuRecAdapter = new MyRecyclerViewAdapter(inputData,screenHeightPx, context, sharedPref);
         recyclerView = findViewById(R.id.recyclerView1);
         recyclerView.setAdapter(menuRecAdapter);
 

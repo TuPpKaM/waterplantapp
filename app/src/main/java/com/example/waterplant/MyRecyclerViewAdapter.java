@@ -1,6 +1,7 @@
 package com.example.waterplant;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private final int screenHeightPx;
     private final DateFormat date;
     private final Context context;
+    private final SharedPreferences sharedPref;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -51,11 +53,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context) {
+    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context, SharedPreferences sharedPref) {
         savedDataSet = Arrays.copyOf(dataSet, dataSet.length);
         localDataSet = dataSet;
         this.screenHeightPx = screenHeightPx;
         this.context = context;
+        this.sharedPref = sharedPref;
         date = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
     }
 
@@ -101,13 +104,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         //onclick for item short
         viewHolder.getImageView().setOnClickListener(v -> {
             viewHolder.getChronometer().setBase(SystemClock.elapsedRealtime());
-            localDataSet[position]= date.format(Calendar.getInstance().getTime());
+            localDataSet[position]= date.format(SystemClock.elapsedRealtime());
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("plant_date_"+position, localDataSet[position]);
+            editor.commit();
         });
 
         //onclick for item long
         viewHolder.getImageView().setLongClickable(true);
         viewHolder.getImageView().setOnLongClickListener(v -> {
             viewHolder.getChronometer().setBase(chronoBase);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("plant_date_"+position, savedDataSet[position]);
+            editor.commit();
             return true;
         });
 
