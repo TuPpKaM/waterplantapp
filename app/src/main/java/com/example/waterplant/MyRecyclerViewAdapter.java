@@ -59,7 +59,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.screenHeightPx = screenHeightPx;
         this.context = context;
         this.sharedPref = sharedPref;
-        date = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        date = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
     }
 
     // Create new views (invoked by the layout manager)
@@ -110,6 +110,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("plant_date_"+position, localDataSet[position]);
             editor.commit();
+            Toast toast = Toast.makeText(context, date.format(SystemClock.elapsedRealtime()) , Toast.LENGTH_LONG);
+            toast.show();
+
         });
 
         //onclick for item long
