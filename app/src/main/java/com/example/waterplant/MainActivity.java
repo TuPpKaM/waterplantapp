@@ -34,13 +34,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //screen calculations
-        int resource = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        int navigationBarHeight = getResources().getDimensionPixelSize(resource);
         Configuration configuration = getResources().getConfiguration();
         int screenWidthDp = configuration.screenWidthDp;
         int screenHeightDp = configuration.screenHeightDp;
         float factor = getResources().getDisplayMetrics().density;
-        int screenHeightPx = (int) ((screenHeightDp)*factor)-(navigationBarHeight);
+        int screenHeightPx = (int) ((screenHeightDp-56)*factor);
 
         Context context = getApplicationContext();
 
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         //debug
 
-        Toast toast = Toast.makeText(context, " W "+screenWidthDp + " H " + screenHeightDp + " S " + navigationBarHeight + " R " + resource, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, " W "+screenWidthDp + " H " + screenHeightDp + " S " + "F"+ factor, Toast.LENGTH_LONG);
         toast.show();
     }
 
