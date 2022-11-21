@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Window;
@@ -33,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //setup toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         //screen calculations
         Configuration configuration = getResources().getConfiguration();
         int screenWidthDp = configuration.screenWidthDp;
         int screenHeightDp = configuration.screenHeightDp;
         float factor = getResources().getDisplayMetrics().density;
         int screenHeightPx = (int) ((screenHeightDp-56)*factor);
+
 
         Context context = getApplicationContext();
 
@@ -69,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
         //debug
 
-        Toast toast = Toast.makeText(context, " W "+screenWidthDp + " H " + screenHeightDp + " S " + "F"+ factor, Toast.LENGTH_LONG);
-        toast.show();
+        //Toast toast = Toast.makeText(context, " W "+screenWidthDp + " H " + screenHeightDp + " S " + "F"+ factor, Toast.LENGTH_LONG);
+        //toast.show();
     }
 
     @Override
