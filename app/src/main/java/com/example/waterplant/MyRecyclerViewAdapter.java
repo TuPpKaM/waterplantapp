@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -25,7 +24,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private final DateFormat date;
     private final Context context;
     private final SharedPreferences sharedPref;
-    private final int backgroundColors;
+    private final String[] backgroundColors;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -60,7 +59,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context, SharedPreferences sharedPref, int backgroundColors) {
+    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context, SharedPreferences sharedPref, String[] backgroundColors) {
         localDataSet = dataSet;
         savedDataSet = Arrays.copyOf(dataSet, dataSet.length);
         this.screenHeightPx = screenHeightPx;
@@ -111,7 +110,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         viewHolder.getImageView().setImageResource(id);
 
         //setup background for timer
-        viewHolder.getBackgroundView().setBackgroundColor(backgroundColors);
+        viewHolder.getBackgroundView().setBackgroundColor(Color.parseColor(backgroundColors[position]));
 
         //setup Chronometer
         viewHolder.getChronometer().setBase(chronoBase);
