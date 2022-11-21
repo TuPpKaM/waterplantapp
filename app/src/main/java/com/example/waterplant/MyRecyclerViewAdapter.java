@@ -97,7 +97,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         long elapsedRealtimeOffset = System.currentTimeMillis() - SystemClock.elapsedRealtime();
         long chronoBase = lastPress - elapsedRealtimeOffset;
 
-        //TODO: setup images
+        //setup images
+        int id = viewHolder.getImageView().getResources().getIdentifier("plant"+(position+1), "drawable", context.getPackageName());
+        viewHolder.getImageView().setImageResource(id);
 
         //setup Chronometer
         viewHolder.getChronometer().setBase(chronoBase);
