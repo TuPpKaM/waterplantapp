@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         MyRecyclerViewAdapter menuRecAdapter = new MyRecyclerViewAdapter(inputData,screenHeightPx, context, sharedPref);
         recyclerView = findViewById(R.id.recyclerView1);
         recyclerView.setAdapter(menuRecAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
 
         //debug
 
