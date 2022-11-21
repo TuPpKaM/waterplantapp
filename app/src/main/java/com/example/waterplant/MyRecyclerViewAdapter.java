@@ -2,6 +2,7 @@ package com.example.waterplant;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private final DateFormat date;
     private final Context context;
     private final SharedPreferences sharedPref;
+    private final int backgroundColors;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -32,18 +34,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final Chronometer chronometer;
         private final ImageView imageView;
+        private final View backgroundView;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
             chronometer = (Chronometer) view.findViewById(R.id.Chronometer);
             imageView = (ImageView) view.findViewById(R.id.imageView);
+            backgroundView = (View) view.findViewById(R.id.backgroundView);
         }
         public Chronometer getChronometer() {
             return chronometer;
         }
         public ImageView getImageView() {
             return imageView;
+        }
+        public View getBackgroundView() {
+            return backgroundView;
         }
     }
 
@@ -53,13 +60,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context, SharedPreferences sharedPref) {
+    public MyRecyclerViewAdapter(String[] dataSet, int screenHeightPx, Context context, SharedPreferences sharedPref, int backgroundColors) {
         localDataSet = dataSet;
         savedDataSet = Arrays.copyOf(dataSet, dataSet.length);
         this.screenHeightPx = screenHeightPx;
         this.context = context;
         this.sharedPref = sharedPref;
         date = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+        this.backgroundColors = backgroundColors;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -100,6 +109,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         //setup images
         int id = viewHolder.getImageView().getResources().getIdentifier("plant"+(position+1), "drawable", context.getPackageName());
         viewHolder.getImageView().setImageResource(id);
+
+        //setup background for timer
+        viewHolder.getBackgroundView().setBackgroundColor(backgroundColors);
 
         //setup Chronometer
         viewHolder.getChronometer().setBase(chronoBase);
