@@ -34,6 +34,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         private final Chronometer chronometer;
         private final ImageView imageView;
         private final View backgroundView;
+        private final ImageView editView;
 
         public ViewHolder(View view) {
             super(view);
@@ -41,6 +42,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             chronometer = (Chronometer) view.findViewById(R.id.Chronometer);
             imageView = (ImageView) view.findViewById(R.id.imageView);
             backgroundView = (View) view.findViewById(R.id.backgroundView);
+            editView = (ImageView) view.findViewById(R.id.editView);
         }
         public Chronometer getChronometer() {
             return chronometer;
@@ -50,6 +52,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
         public View getBackgroundView() {
             return backgroundView;
+        }
+        public ImageView getEditView() {
+            return editView;
         }
     }
 
@@ -168,6 +173,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             int s = (int) ((time / 1000) % 60);
             cArg.setText(s + " sec");
+        });
+
+        //onclick for edit
+        viewHolder.getEditView().setOnClickListener(v -> {
+            Toast toast = Toast.makeText(context, "edit" , Toast.LENGTH_SHORT);
+            toast.show();
         });
     }
 
